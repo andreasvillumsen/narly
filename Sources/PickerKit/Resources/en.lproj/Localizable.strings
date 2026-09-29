@@ -1,0 +1,225 @@
+// Narly user-facing strings. %@ = app name or key; %ld = number.
+"%ld links" = "%ld links";
+"About Narly" = "About Narly";
+"Add" = "Add";
+"Add app" = "Add app";
+"Add app…" = "Add app…";
+"Allow Narly in System Settings to open it automatically at login." = "Allow Narly in System Settings to open it automatically at login.";
+"Already used by %@. Choose another key." = "Already used by %@. Choose another key.";
+"Browsers and apps" = "Browsers and apps";
+"Cancel" = "Cancel";
+"Can’t open this link in %@." = "Can’t open this link in %@.";
+"Choose a browser or app each time you open a link from another app." = "Choose a browser or app each time you open a link from another app.";
+"Choose a valid Mac application (.app)." = "Choose a valid Mac application (.app).";
+"Choose an installed app that can open web links." = "Choose an installed app that can open web links.";
+"Choose where your links open." = "Choose where your links open.";
+"Click Set shortcut or an existing shortcut, then press a key. ⌥ is added automatically.\nHold ⌥ in the link picker to see your shortcuts." = "Click Set shortcut or an existing shortcut, then press a key. ⌥ is added automatically.\nHold ⌥ in the link picker to see your shortcuts.";
+"Compact" = "Compact";
+"Continue" = "Continue";
+"Copied" = "Copied";
+"Copy app info" = "Copy app info";
+"Copy link" = "Copy link";
+"Copy the Narly version, build number and macOS version for feedback." = "Copy the Narly version, build number and macOS version for feedback.";
+"Couldn’t add the app" = "Couldn’t add the app";
+"Couldn’t change whether Narly opens at login. Check Narly’s permissions in System Settings." = "Couldn’t change whether Narly opens at login. Check Narly’s permissions in System Settings.";
+"Couldn’t check whether Narly opens at login." = "Couldn’t check whether Narly opens at login.";
+"Couldn’t copy the link. Try again." = "Couldn’t copy the link. Try again.";
+"Couldn’t open the link in %@. Choose a browser or copy the link." = "Couldn’t open the link in %@. Choose a browser or copy the link.";
+"Custom" = "Custom";
+"Custom size" = "Custom size";
+"Default browser" = "Default browser";
+"Dimmed apps can’t open the current link." = "Dimmed apps can’t open the current link.";
+"Dismiss" = "Dismiss";
+"Drag apps to reorder them. Hidden apps don’t appear in the link picker." = "Drag apps to reorder them. Hidden apps don’t appear in the link picker.";
+"Drag the window edges to set the link picker’s size, then click Save." = "Drag the window edges to set the link picker’s size, then click Save.";
+"Drag your favourite apps to the top of the list." = "Drag your favourite apps to the top of the list.";
+"Example app %ld" = "Example app %ld";
+"First available app" = "First available app";
+"Help" = "Help";
+"Hidden apps (%ld)" = "Hidden apps (%ld)";
+"Hide" = "Hide";
+"Hide %@" = "Hide %@";
+"If Narly is your default browser, opening a link starts it automatically." = "If Narly is your default browser, opening a link starts it automatically.";
+"If an app can’t open a link, choose a browser. To stop using Narly for links, choose another default browser in System Settings." = "If an app can’t open a link, choose a browser. To stop using Narly for links, choose another default browser in System Settings.";
+"Keep at least one installed browser visible." = "Keep at least one installed browser visible.";
+"Link addresses too long: %ld." = "Link addresses too long: %ld.";
+"Link picker" = "Link picker";
+"Links are passed to the app you choose. Narly makes no network requests to resolve them. The selected app and websites you open have their own privacy practices." = "Links are passed to the app you choose. Narly makes no network requests to resolve them. The selected app and websites you open have their own privacy practices.";
+"Links from other apps open in Narly, where you choose a browser or app." = "Links from other apps open in Narly, where you choose a browser or app.";
+"Links not added: %ld." = "Links not added: %ld.";
+"Menu bar" = "Menu bar";
+"Move down" = "Move down";
+"Move up" = "Move up";
+"Narly does not collect usage analytics or save link history to disk. Settings and technical logs stay on your Mac. Logs contain no links, domains or window titles and are not uploaded. Pending and dismissed links stay in memory temporarily." = "Narly does not collect usage analytics or save link history to disk. Settings and technical logs stay on your Mac. Logs contain no links, domains or window titles and are not uploaded. Pending and dismissed links stay in memory temporarily.";
+"Narly is set as the default for only some web links. Try again to finish setup." = "Narly is set as the default for only some web links. Try again to finish setup.";
+"Narly is your default browser" = "Narly is your default browser";
+"Narly lets you choose which browser or app opens links from other apps." = "Narly lets you choose which browser or app opens links from other apps.";
+"Narly opens automatically when you log in." = "Narly opens automatically when you log in.";
+"Narly still opens your links when the icon is hidden. Open Narly from Applications or Spotlight to access settings." = "Narly still opens your links when the icon is hidden. Open Narly from Applications or Spotlight to access settings.";
+"Narly wasn’t set as your default browser. Try again to change it." = "Narly wasn’t set as your default browser. Try again to change it.";
+"No available apps can open this link. Copy it, or check Browsers and apps in Narly’s settings." = "No available apps can open this link. Copy it, or check Browsers and apps in Narly’s settings.";
+"No browsers are available. Show an installed browser under Hidden apps, or install a browser and scan again." = "No browsers are available. Show an installed browser under Hidden apps, or install a browser and scan again.";
+"No link" = "No link";
+"None" = "None";
+"Not installed" = "Not installed";
+"Open Narly from Applications or Spotlight to find settings and help." = "Open Narly from Applications or Spotlight to find settings and help.";
+"Open Narly from the Applications folder to set it as your default browser." = "Open Narly from the Applications folder to set it as your default browser.";
+"Open System Settings…" = "Open System Settings…";
+"Open at login" = "Open at login";
+"Open in %@" = "Open in %@";
+"Open or copy links in the queue to make room, then try the skipped links again from the app they came from. Open links with addresses that are too long or unsupported types in another app." = "Open or copy links in the queue to make room, then try the skipped links again from the app they came from. Open links with addresses that are too long or unsupported types in another app.";
+"Open with" = "Open with";
+"Opening link…" = "Opening link…";
+"Option-%@ opens the link in this app." = "Option-%@ opens the link in this app.";
+"Preselected browser" = "Preselected browser";
+"Press %ld to open the link." = "Press %ld to open the link.";
+"Press Return to open the link in the selected app. You can select a different app before opening." = "Press Return to open the link in the selected app. You can select a different app before opening.";
+"Press a key" = "Press a key";
+"Press a key without holding Command, Control or Shift. ⌥ is added automatically." = "Press a key without holding Command, Control or Shift. ⌥ is added automatically.";
+"Press a key. ⌥ is added automatically. Press Escape to cancel." = "Press a key. ⌥ is added automatically. Press Escape to cancel.";
+"Preview link" = "Preview link";
+"Privacy" = "Privacy";
+"Queue full: %ld." = "Queue full: %ld.";
+"Quit Narly" = "Quit Narly";
+"Remove from Narly" = "Remove from Narly";
+"Remove shortcut" = "Remove shortcut";
+"Reopen dismissed links" = "Reopen dismissed links";
+"Reset size" = "Reset size";
+"Resize link picker" = "Resize link picker";
+"Resize…" = "Resize…";
+"Save" = "Save";
+"Scan for apps" = "Scan for apps";
+"Scan for installed browsers and apps" = "Scan for installed browsers and apps";
+"Search: %@" = "Search: %@";
+"Selected. Press Return to open the link." = "Selected. Press Return to open the link.";
+"Set Narly as your default browser to start choosing where links open." = "Set Narly as your default browser to start choosing where links open.";
+"Set as default browser" = "Set as default browser";
+"Set shortcut" = "Set shortcut";
+"Set" = "Set";
+"App" = "App";
+"Shortcut" = "Shortcut";
+"Set shortcut for %@" = "Set shortcut for %@";
+"Settings" = "Settings";
+"Settings…" = "Settings…";
+"Show" = "Show";
+"Show %@" = "Show %@";
+"Show Narly in the menu bar" = "Show Narly in the menu bar";
+"Some links weren’t added" = "Some links weren’t added";
+"Standard" = "Standard";
+"Standard shows up to 10 apps. Compact shows up to 5. Choose Custom to set the size yourself. Scroll to see more apps." = "Standard shows up to 10 apps. Compact shows up to 5. Choose Custom to set the size yourself. Scroll to see more apps.";
+"Startup" = "Startup";
+"This app could send links back to Narly. Choose a browser or another app." = "This app could send links back to Narly. Choose a browser or another app.";
+"Send feedback and the copied app info to" = "Send feedback and the copied app info to";
+"To switch back, choose another default browser in System Settings." = "To switch back, choose another default browser in System Settings.";
+"Type an app name to find an app. Press Return to open the link in the selected app. Use ↑ and ↓ to change the selection, or 1–9 to open a link in an app when you aren’t searching. ⌘C copies the link. Escape clears your search. If the search is empty, it closes the picker." = "Type an app name to find an app. Press Return to open the link in the selected app. Use ↑ and ↓ to change the selection, or 1–9 to open a link in an app when you aren’t searching. ⌘C copies the link. Escape clears your search. If the search is empty, it closes the picker.";
+"Unsupported link types: %ld." = "Unsupported link types: %ld.";
+"Use Narly for your links" = "Use Narly for your links";
+"Waiting for macOS…" = "Waiting for macOS…";
+"Welcome to Narly" = "Welcome to Narly";
+"Window size" = "Window size";
+"Your links. The right place." = "Your links. The right place.";
+"another app" = "another app";
+"Drag apps to change their order. Choose Hide App to move an app to Hidden Apps." = "Drag apps to change their order. Choose Hide App to move an app to Hidden Apps.";
+"In the link picker, dimmed apps can’t open the current link." = "In the link picker, dimmed apps can’t open the current link.";
+"Click Record hotkey or an existing shortcut, then press a key. ⌥ is added automatically.\nHold ⌥ in the link picker to see your shortcuts." = "Click Record hotkey or an existing shortcut, then press a key. ⌥ is added automatically.\nHold ⌥ in the link picker to see your shortcuts.";
+
+"Show App" = "Show App";
+
+"Hide App" = "Hide App";
+
+// Bounded link queue feedback
+"Links not queued" = "Links not queued";
+"Links not queued: %ld." = "Links not queued: %ld.";
+"Larger than 64 KiB: %ld." = "Larger than 64 KiB: %ld.";
+"Unsupported: %ld." = "Unsupported: %ld.";
+"Make room by opening or copying queued links, then reopen rejected links from the source. Oversized or unsupported links need another app." = "Make room by opening or copying queued links, then reopen rejected links from the source. Oversized or unsupported links need another app.";
+"Dismiss notice" = "Dismiss notice";
+
+"Ask Every Time" = "Ask Every Time";
+
+"Open in App" = "Open in App";
+
+"Open in Browser" = "Open in Browser";
+
+"Not installed · Opens in browser" = "Not installed · Opens in browser";
+
+"Open App Links" = "Open App Links";
+
+"Hold Option (⌥) while opening a link to show the Narly picker instead. If the app is unavailable, links open in your initial browser selection." = "Hold Option (⌥) while opening a link to show the Narly picker instead. If the app is unavailable, links open in your initial browser selection.";
+
+"The link could not be opened automatically. Choose an app or copy the link." = "The link could not be opened automatically. Choose an app or copy the link.";
+
+"Hold ⌥ to choose each time." = "Hold ⌥ to choose each time.";
+
+"Click to configure. Drag to reorder." = "Click to configure. Drag to reorder.";
+
+"Keyboard Shortcut" = "Keyboard Shortcut";
+
+"Show in Link Picker" = "Show in Link Picker";
+
+"Drag to reorder" = "Drag to reorder";
+
+"Edit List" = "Edit List";
+
+"Done" = "Done";
+
+"Show Link Picker" = "Show Link Picker";
+
+"Browser" = "Browser";
+
+"Choose which apps appear in the picker. Drag the handles to reorder." = "Choose which apps appear in the picker. Drag the handles to reorder.";
+
+"Choose which apps appear in the picker, set keyboard shortcuts, and drag rows to reorder." = "Choose which apps appear in the picker, set keyboard shortcuts, and drag rows to reorder.";
+
+"1 hidden app" = "1 hidden app";
+
+"%ld hidden apps" = "%ld hidden apps";
+
+
+
+"Edit list" = "Edit list";
+
+"Show link picker" = "Show link picker";
+
+"Open in browser" = "Open in browser";
+
+"Open links" = "Open links";
+"Open links for %@" = "Open links for %@";
+
+
+
+"Ask every time" = "Ask every time";
+
+"Open in app" = "Open in app";
+
+
+
+
+
+
+"Couldn’t open the link automatically. Choose an app or copy the link." = "Couldn’t open the link automatically. Choose an app or copy the link.";
+"macOS couldn’t find Narly. Open it from Applications and try again." = "macOS couldn’t find Narly. Open it from Applications and try again.";
+
+// Picker layout
+"Layout" = "Layout";
+"List" = "List";
+"Horizontal" = "Horizontal";
+"No matches" = "No matches";
+"%ld matches" = "%ld matches";
+"Horizontal shows all your apps in one row. Use the left and right arrow keys to choose an app." = "Horizontal shows all your apps in one row. Use the left and right arrow keys to choose an app.";
+"%@ Settings" = "%@ Settings";
+"General" = "General";
+"Apps" = "Apps";
+"About" = "About";
+"Narly opens your links even when the menu bar icon is hidden." = "Narly opens your links even when the menu bar icon is hidden.";
+"Open Narly from Applications or Spotlight to access settings." = "Open Narly from Applications or Spotlight to access settings.";
+"Standard window size shows up to 10 apps. Scroll to see more." = "Standard window size shows up to 10 apps. Scroll to see more.";
+"Compact window size shows up to 5 apps. Scroll to see more." = "Compact window size shows up to 5 apps. Scroll to see more.";
+"Custom window size lets you resize the picker. Scroll to see more apps." = "Custom window size lets you resize the picker. Scroll to see more apps.";
+"No installed apps found. Add an app to open your links." = "No installed apps found. Add an app to open your links.";
+"Drag to reorder. Uncheck an app to hide it from the picker." = "Drag to reorder. Uncheck an app to hide it from the picker.";
+"No browsers are available. Enable an installed browser above, or add a browser." = "No browsers are available. Enable an installed browser above, or add a browser.";
+"%@ links" = "%@ links";
+"Expanded" = "Expanded";
+"Collapsed" = "Collapsed";
+"Options for %@" = "Options for %@";
