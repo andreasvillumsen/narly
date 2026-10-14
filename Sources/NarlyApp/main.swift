@@ -14,6 +14,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                              preferredBrowserID: preferences.preferredID, displayMode: preferences.pickerMode,
                                              customPickerSize: preferences.customPickerSize, layout: preferences.pickerLayout,
                                              appShortcuts: preferences.appShortcuts)
+    private let nextLinkHotKey = NextLinkHotKey()
     private var settings: SettingsWindowController?
     private var isLoginLaunch = false
     private var controller: PickerPanelController?
@@ -59,6 +60,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                          preferredBrowserID: self.preferences.preferredID)
             self.controller?.repositionIfVisible()
         }
+        nextLinkHotKey.onPress = { [weak self] in self?.session.armNextLinkPicker() }
+        preferences.registerNextLinkShortcut = { [weak self] shortcut in
+            self?.nextLinkHotKey.register(shortcut) ?? false
+        }
+        if !nextLinkHotKey.register(preferences.nextLinkShortcut) {
+            preferences.nextLinkShortcutError = L10n.text("This shortcut is unavailable. Choose another combination.")
+        }
         setupMenu()
         session.onOpenFailure = { [weak self] in self?.preferences.refreshInstalledApplications() }
         diagnostics.record("ready", panel: controller?.panel)
@@ -76,6 +84,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         diagnostics.record("url-received", panel: controller?.panel)
         // A caller's intent (human click vs automatic action) is not guessed.
         // Explicitly targeted apps and non-HTTP schemes remain handled by macOS.
+        session.browserOnlyDestinationID = preferences.browserOnlyDestinationID
         session.appLinkBehaviors = preferences.appLinkBehaviors
         session.routingDestinations = preferences.destinations
         session.receive(urls, optionHeld: optionHeld)
@@ -95,6 +104,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        nextLinkHotKey.stop()
         controller?.removeMouseMonitors()
         diagnostics.record("terminating", panel: controller?.panel)
     }
@@ -117,8 +127,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let menu = NSMenu()
         menu.delegate = self
         menu.autoenablesItems = false
-        add(L10n.text("Settings…"), #selector(showSettings), to: menu)
+        add(L10n.text("Settings"), #selector(showSettings), to: menu)
         menu.addItem(.separator())
+        add(L10n.text("Show picker for next link"), #selector(toggleNextLinkPicker), to: menu)
         add(L10n.text("Reopen dismissed links"), #selector(restore), to: menu)
         menu.addItem(.separator())
         add(L10n.text("Quit Narly") + (AppInformation.isDevelopment ? " Dev" : ""), #selector(quit), to: menu)
@@ -133,8 +144,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
+        menu.items.first(where: { $0.action == #selector(toggleNextLinkPicker) })?.state =
+            session.showsPickerForNextLink ? .on : .off
         menu.items.first(where: { $0.action == #selector(restore) })?.isEnabled =
             !session.queue.dismissed.isEmpty && session.queue.pending.isEmpty && !session.isOpening
+    }
+
+    @objc private func toggleNextLinkPicker() {
+        if session.showsPickerForNextLink { session.cancelNextLinkPicker() }
+        else { session.armNextLinkPicker() }
     }
 
     @objc private func restore() { session.restore() }

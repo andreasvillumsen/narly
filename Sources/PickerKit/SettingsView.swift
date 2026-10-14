@@ -35,6 +35,7 @@ struct SettingsView: View {
     let loginItem: LoginItemSettings
     let introduction: IntroductionState
     let navigation: SettingsNavigation
+    let updates: SettingsUpdates
     let addApplication: () -> Void
     let customizeSize: () -> Void
 
@@ -47,7 +48,7 @@ struct SettingsView: View {
             case .apps:
                 SettingsDestinationsView(preferences: preferences, addApplication: addApplication)
             case .about:
-                SettingsAboutSection()
+                SettingsAboutSection(updates: updates, preferences: preferences)
             }
         }
         .formStyle(.grouped)

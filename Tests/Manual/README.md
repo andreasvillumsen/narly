@@ -63,7 +63,7 @@ animation's completion. Ordinary typing must not restart the entry animation.
 
 - In List, check that the app names and shortcuts remain visible, native selection
   follows the entire row, and there is no Open with heading, divider or footer link.
-  Choose Custom under Window size (or Resize… for an existing custom size) and confirm the row preview still resizes and saves correctly.
+  Choose Custom under Window size (or Resize for an existing custom size) and confirm the row preview still resizes and saves correctly.
   Hover each window edge and corner to check native resize cursors. Drag slowly
   by a few points: the window should respond continuously and snap to whole rows
   only on release. Check Cancel leaves the saved size unchanged.
@@ -73,10 +73,26 @@ animation's completion. Ordinary typing must not restart the entry animation.
 
 ## Native settings
 
+- In About, activate Check for updates with the keyboard. Confirm the checking
+  status and disabled button, then the latest-version result for a matching
+  public release. Switching panes or reopening Settings must not start a check.
+  Repeat in English and Danish and at the minimum Settings window size.
+- Check the update controls/status with VoiceOver, Reduce Motion, Reduce
+  Transparency and Increase Contrast. Controls use native buttons/menu and text;
+  there is no custom animation or material.
+- With a newer stable release, choose a browser from View update. Confirm the
+  release page reaches that browser directly even when Narly is the default
+  browser, and that Copy link copies that same page. Verify a failed browser
+  dispatch keeps the release, browser choices and copy recovery available.
+- With the network unavailable, confirm a retryable failure rather than a
+  latest-version result. Verify missing public releases are shown separately.
+  Automated fixtures cover newer releases, API failures and dispatch failures;
+  record which of these paths were also observed with real apps/services.
+
 - Switch General / Apps / About using the native toolbar. Close and reopen settings;
   the selected tab should remain. Reopening onboarding should return to General.
 - In General, verify List and Horizontal both persist. Window size is only available
-  for List; Resize… only for Custom. Cancel the custom-size editor before saving and
+  for List; Resize only for Custom. Cancel the custom-size editor before saving and
   confirm the old size remains selected. Confirm default-browser and login-approval
   messages are still available when relevant.
 - In Apps, check/uncheck an app, then select it and move it up/down. Hidden apps must
@@ -88,6 +104,25 @@ animation's completion. Ordinary typing must not restart the entry animation.
 - Add app… should open a native application chooser directly, without Edit list.
   Cancel without changes. Remove a manually added app through its context menu and
   confirm selection falls back to an available row.
-- Check About, Help, Privacy and Copy app info. Inspect all tabs in English/Danish,
+- Check About, Help, Privacy and Check for updates. Inspect all tabs in English/Danish,
   light/dark mode and at the minimum window size, including keyboard and VoiceOver
   navigation. Restore any development preferences changed during manual testing.
+
+### One-shot picker override and global shortcut
+
+Use Narly Dev and a neutral example.com URL. In General → Browser links choose
+an installed browser, then use Show picker for next link in the Dev menu bar.
+Reopen the menu to check its checkmark; clicking again must cancel. Arm it again,
+deliver one link, and verify the picker appears before a browser opens. The next
+ordinary link must again open automatically. A matching app link with automatic
+routing configured must also show the picker when armed.
+
+Choose a global shortcut under General → Show the picker. With Finder and then
+an Electron app active, press the actual shortcut before clicking a link. Check
+the same one-shot behavior. Repeat with the source app fullscreen. Escape during
+recording preserves the previous shortcut; Remove shortcut in the recorder’s context menu unregisters it. Verify
+that a combination registered by another running app reports unavailable and
+preserves the saved choice. Avoid assigning the same shortcut to release and Dev.
+Check keyboard navigation and VoiceOver on the recorder and menu action. Native
+registration and synthetic Carbon-event tests do not prove real key dispatch in
+all foreground apps; record those observations separately.

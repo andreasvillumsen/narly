@@ -54,7 +54,7 @@ struct PickerView: View {
             if session.isOpening {
                 HStack(spacing: 8) {
                     ProgressView().controlSize(.small)
-                    Text(L10n.text("Opening link…")).font(.system(size: 11)).foregroundStyle(.secondary)
+                    Text(L10n.text("Opening link")).font(.system(size: 11)).foregroundStyle(.secondary)
                     Spacer(minLength: 0)
                     if session.isResolving {
                         Button(L10n.text("Cancel"), action: session.cancelResolution)

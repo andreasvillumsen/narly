@@ -85,4 +85,37 @@ import Testing
         }
         #expect(ended)
     }
+
+    @Test func errorPopoverPreservesRecorderFocusAndClosesWhenCleared() throws {
+        _ = NSApplication.shared
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 400, height: 200),
+                              styleMask: [.titled], backing: .buffered, defer: false)
+        window.isReleasedWhenClosed = false
+        let content = NSView(frame: window.contentLayoutRect)
+        let capture = HotkeyCaptureView(onKey: { _ in })
+        let anchor = HotkeyErrorAnchor(frame: NSRect(x: 100, y: 100, width: 64, height: 24))
+        content.addSubview(capture)
+        content.addSubview(anchor)
+        window.contentView = content
+        window.orderFront(nil)
+        defer {
+            anchor.update(message: nil)
+            window.close()
+        }
+        #expect(window.makeFirstResponder(capture))
+        anchor.update(message: "Already used by Safari. Choose another key.")
+        #expect(anchor.isErrorPresented)
+        #expect(window.firstResponder === capture)
+        #expect(capture.performKeyEquivalent(with: try event(1)))
+        let firstFrame = try #require(anchor.errorWindowFrame)
+        anchor.update(message: "Already used by Firefox. Choose another key.")
+        #expect(anchor.isErrorPresented)
+        #expect(anchor.errorWindowFrame == firstFrame)
+        #expect(window.firstResponder === capture)
+        anchor.update(message: "Already used by Firefox. Choose another key.")
+        #expect(anchor.errorWindowFrame == firstFrame)
+        anchor.update(message: nil)
+        #expect(!anchor.isErrorPresented)
+        #expect(window.firstResponder === capture)
+    }
 }

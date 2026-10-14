@@ -42,14 +42,9 @@ struct HotkeyRecorder: View {
                     }
                 }
             }
-            if isRecording, let error {
-                Text(error)
-                    .font(.caption)
-                    .foregroundStyle(.red)
-                    .frame(width: 160, alignment: .trailing)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .accessibilityIdentifier("hotkey-error")
-            }
+        }
+        .background {
+            HotkeyErrorPopover(message: isRecording ? error : nil)
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didResignActiveNotification)) { _ in
             isRecording = false
@@ -74,6 +69,58 @@ struct HotkeyRecorder: View {
     }
 }
 
+/// An informational popover must not take first responder from the key recorder.
+struct HotkeyErrorPopover: NSViewRepresentable {
+    let message: String?
+
+    func makeNSView(context: Context) -> HotkeyErrorAnchor { HotkeyErrorAnchor() }
+
+    func updateNSView(_ view: HotkeyErrorAnchor, context: Context) {
+        view.update(message: message)
+    }
+
+    static func dismantleNSView(_ view: HotkeyErrorAnchor, coordinator: ()) {
+        view.update(message: nil)
+    }
+}
+
+final class HotkeyErrorAnchor: NSView {
+    private let popover = NSPopover()
+    private let content = NSHostingController(rootView: AnyView(EmptyView()))
+    private var message: String?
+    var isErrorPresented: Bool { popover.isShown }
+    var errorWindowFrame: NSRect? { content.view.window?.frame }
+
+    func update(message: String?) {
+        guard self.message != message else { return }
+        self.message = message
+        guard let message else {
+            popover.close()
+            return
+        }
+        popover.behavior = .applicationDefined
+        popover.animates = false
+        // Keep the hosting controller and visible popover alive across errors.
+        // Replacing the controller resets AppKit's positioning while it is shown.
+        content.rootView = AnyView(
+            Text(message)
+                .font(.caption)
+                .foregroundStyle(.red)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(width: 240, alignment: .leading)
+                .padding(12)
+                .accessibilityIdentifier("hotkey-error")
+        )
+        guard window != nil else { return }
+        if !popover.isShown {
+            popover.contentViewController = content
+            popover.show(relativeTo: bounds, of: self, preferredEdge: .maxY)
+        }
+        NSAccessibility.post(element: self, notification: .announcementRequested,
+                             userInfo: [.announcement: message, .priority: NSAccessibilityPriorityLevel.high.rawValue])
+    }
+}
+
 enum HotkeyRecording {
     enum Action: Equatable { case ignore, cancel, invalid, key(String) }
 
@@ -88,7 +135,7 @@ enum HotkeyRecording {
 }
 
 /// Capture only while this row owns first responder; no keyboard monitors.
-private struct HotkeyCapture: NSViewRepresentable {
+struct HotkeyCapture: NSViewRepresentable {
     let onKey: (NSEvent) -> Void
     let onEnd: () -> Void
 

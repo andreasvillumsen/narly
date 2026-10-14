@@ -3,7 +3,6 @@
 "About Narly" = "Om Narly";
 "Add" = "Tilføj";
 "Add app" = "Tilføj app";
-"Add app…" = "Tilføj app…";
 "Allow Narly in System Settings to open it automatically at login." = "Tillad Narly i Systemindstillinger, så appen åbner automatisk, når du logger ind.";
 "Already used by %@. Choose another key." = "Bruges allerede af %@. Vælg en anden tast.";
 "Browsers and apps" = "Browsere og apps";
@@ -17,9 +16,7 @@
 "Compact" = "Kompakt";
 "Continue" = "Fortsæt";
 "Copied" = "Kopieret";
-"Copy app info" = "Kopiér appoplysninger";
 "Copy link" = "Kopiér link";
-"Copy the Narly version, build number and macOS version for feedback." = "Kopiér Narly-version, buildnummer og macOS-version til din feedback.";
 "Couldn’t add the app" = "Appen kunne ikke tilføjes";
 "Couldn’t change whether Narly opens at login. Check Narly’s permissions in System Settings." = "Kunne ikke ændre, om Narly åbner ved login. Kontrollér Narlys tilladelser i Systemindstillinger.";
 "Couldn’t check whether Narly opens at login." = "Kunne ikke kontrollere, om Narly åbner ved login.";
@@ -64,12 +61,12 @@
 "Not installed" = "Ikke installeret";
 "Open Narly from Applications or Spotlight to find settings and help." = "Åbn Narly fra Programmer eller Spotlight for at finde indstillinger og hjælp.";
 "Open Narly from the Applications folder to set it as your default browser." = "Åbn Narly fra mappen Programmer for at vælge appen som standardbrowser.";
-"Open System Settings…" = "Åbn Systemindstillinger…";
+"Open System Settings" = "Åbn Systemindstillinger";
 "Open at login" = "Åbn ved login";
 "Open in %@" = "Åbn i %@";
 "Open or copy links in the queue to make room, then try the skipped links again from the app they came from. Open links with addresses that are too long or unsupported types in another app." = "Åbn eller kopiér links i køen for at gøre plads. Prøv derefter de oversprungne links igen fra den app, de kom fra. Åbn links med for lange adresser eller ikke-understøttede typer i en anden app.";
 "Open with" = "Åbn med";
-"Opening link…" = "Åbner link…";
+"Opening link" = "Åbner link";
 "Option-%@ opens the link in this app." = "Option-%@ åbner linket i denne app.";
 "Preselected browser" = "Forhåndsvalgt browser";
 "Press %ld to open the link." = "Tryk på %ld for at åbne linket.";
@@ -86,7 +83,7 @@
 "Reopen dismissed links" = "Vis lukkede links igen";
 "Reset size" = "Nulstil størrelse";
 "Resize link picker" = "Tilpas linkvælgerens størrelse";
-"Resize…" = "Tilpas…";
+"Resize" = "Tilpas";
 "Save" = "Gem";
 "Scan for apps" = "Søg efter apps";
 "Scan for installed browsers and apps" = "Søg efter installerede browsere og apps";
@@ -100,7 +97,7 @@
 "Shortcut" = "Genvej";
 "Set shortcut for %@" = "Indstil genvej til %@";
 "Settings" = "Indstillinger";
-"Settings…" = "Indstillinger…";
+"Settings" = "Indstillinger";
 "Show" = "Vis";
 "Show %@" = "Vis %@";
 "Show Narly in the menu bar" = "Vis Narly i menulinjen";
@@ -109,12 +106,12 @@
 "Standard shows up to 10 apps. Compact shows up to 5. Choose Custom to set the size yourself. Scroll to see more apps." = "Standard viser op til 10 apps. Kompakt viser op til 5. Vælg Tilpasset for selv at indstille størrelsen. Rul for at se flere apps.";
 "Startup" = "Opstart";
 "This app could send links back to Narly. Choose a browser or another app." = "Denne app kan sende links tilbage til Narly. Vælg en browser eller en anden app.";
-"Send feedback and the copied app info to" = "Send feedback og de kopierede appoplysninger til";
+"Send feedback to" = "Send feedback til";
 "To switch back, choose another default browser in System Settings." = "Vælg en anden standardbrowser i Systemindstillinger for at skifte tilbage.";
 "Type an app name to find an app. Press Return to open the link in the selected app. Use ↑ and ↓ to change the selection, or 1–9 to open a link in an app when you aren’t searching. ⌘C copies the link. Escape clears your search. If the search is empty, it closes the picker." = "Skriv et appnavn for at finde en app. Tryk på Retur for at åbne linket i den markerede app. Brug ↑ og ↓ til at flytte markeringen, eller 1–9 til at åbne linket i en app, når du ikke søger. ⌘C kopierer linket. Escape rydder søgningen. Hvis søgningen er tom, lukker tasten linkvælgeren.";
 "Unsupported link types: %ld." = "Ikke-understøttede linktyper: %ld.";
 "Use Narly for your links" = "Brug Narly til dine links";
-"Waiting for macOS…" = "Venter på macOS…";
+"Waiting for macOS" = "Venter på macOS";
 "Welcome to Narly" = "Velkommen til Narly";
 "Window size" = "Vinduesstørrelse";
 "Your links. The right place." = "Dine links. Det rigtige sted.";
@@ -223,3 +220,28 @@
 "Expanded" = "Udvidet";
 "Collapsed" = "Sammenfoldet";
 "Options for %@" = "Indstillinger for %@";
+
+// Manual update checks
+"Check for updates" = "Søg efter opdateringer";
+"Checking for updates" = "Søger efter opdateringer";
+"Couldn’t check for updates. Try again." = "Kunne ikke søge efter opdateringer. Prøv igen.";
+"Narly %@ is available." = "Narly %@ er tilgængelig.";
+"No public release is available yet." = "Der er endnu ingen offentlig udgivelse tilgængelig.";
+"View update" = "Se opdatering";
+"When you check for updates, Narly contacts GitHub to read the latest public release. GitHub receives your IP address. Your links and app preferences are not sent." = "Når du søger efter opdateringer, kontakter Narly GitHub for at hente den seneste offentlige udgivelse. GitHub modtager din IP-adresse. Dine links og appindstillinger sendes ikke.";
+"You have the latest version." = "Du har den nyeste version.";
+
+// Browser-only routing
+"Open in" = "Åbn i";
+"Browser links" = "Browserlinks";
+"Selected browser unavailable" = "Den valgte browser er ikke tilgængelig";
+"Skip the picker when no installed app supports the link. Links with a matching app keep their app settings. Hold Option when opening a link to show the picker." = "Spring vælgeren over, når ingen installeret app understøtter linket. Links med en relevant app følger appens indstillinger. Hold Option nede, når du åbner et link, for at vise vælgeren.";
+
+// Next-link picker override
+"Show picker for next link" = "Vis vælgeren for næste link";
+"Global shortcut" = "Global genvej";
+"Show the picker" = "Vis vælgeren";
+"Shortcut to show picker for next link" = "Genvej til at vise vælgeren for næste link";
+"Include Command or Control in your shortcut. Press Escape to cancel." = "Brug Command eller Control i genvejen. Tryk Escape for at annullere.";
+"This shortcut is unavailable. Choose another combination." = "Denne genvej er ikke tilgængelig. Vælg en anden kombination.";
+"Use the menu bar or your shortcut before clicking a link. The next link shows the picker once. Click the menu item again to cancel. Option still works when held while opening a link." = "Brug menulinjen eller din genvej, før du klikker på et link. Det næste link viser vælgeren én gang. Klik på menupunktet igen for at annullere. Option virker stadig, når du holder tasten nede, mens du åbner et link.";

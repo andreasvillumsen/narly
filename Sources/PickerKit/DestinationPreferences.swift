@@ -30,6 +30,40 @@ public final class DestinationPreferences {
         onChange?()
     }
 
+    public private(set) var browserOnlyDestinationID: String?
+
+    public func setBrowserOnlyDestination(_ id: String?) {
+        guard id == nil || availableBrowsers.contains(where: { $0.id == id }) else { return }
+        browserOnlyDestinationID = id
+        defaults.set(id, forKey: "narly.browserOnlyDestination.v1")
+        onChange?()
+    }
+
+    public private(set) var nextLinkShortcut: NextLinkShortcut?
+    public var nextLinkShortcutError: String?
+    @ObservationIgnored public var registerNextLinkShortcut: ((NextLinkShortcut?) -> Bool)?
+
+    public func setNextLinkShortcutRecording(_ recording: Bool) {
+        if registerNextLinkShortcut?(recording ? nil : nextLinkShortcut) == false {
+            nextLinkShortcutError = L10n.text("This shortcut is unavailable. Choose another combination.")
+        }
+    }
+
+    @discardableResult public func setNextLinkShortcut(_ shortcut: NextLinkShortcut?) -> Bool {
+        guard shortcut == nil || shortcut?.isValid == true else { return false }
+        guard registerNextLinkShortcut?(shortcut) ?? true else {
+            nextLinkShortcutError = L10n.text("This shortcut is unavailable. Choose another combination.")
+            return false
+        }
+        nextLinkShortcutError = nil
+        nextLinkShortcut = shortcut
+        if let shortcut, let data = try? JSONEncoder().encode(shortcut) {
+            defaults.set(data, forKey: "narly.nextLinkShortcut.v1")
+        } else { defaults.removeObject(forKey: "narly.nextLinkShortcut.v1") }
+        onChange?()
+        return true
+    }
+
     private var saved: Saved
     private var catalog: [Destination]
     private var manualApplications: [ManualApplication]
@@ -46,6 +80,10 @@ public final class DestinationPreferences {
 
     public init(destinations: [Destination], defaults: UserDefaults = .standard,
                 catalogProvider: @escaping () -> [Destination] = { DestinationCatalog.supportedDestinations() }) {
+        let storedShortcut = defaults.data(forKey: "narly.nextLinkShortcut.v1")
+            .flatMap { try? JSONDecoder().decode(NextLinkShortcut.self, from: $0) }
+        nextLinkShortcut = storedShortcut?.isValid == true ? storedShortcut : nil
+        browserOnlyDestinationID = defaults.string(forKey: "narly.browserOnlyDestination.v1")
         appLinkBehaviors = defaults.dictionary(forKey: "narly.appLinkBehaviors.v1") as? [String: String] ?? [:]
         self.destinations = destinations
         self.catalog = destinations

@@ -36,7 +36,7 @@ import Testing
             let translations = try table(language)
             #expect(String(format: try #require(translations["Open in %@"]), "Helium") == open)
             #expect(String(format: try #require(translations["%ld links"]), 10) == queued)
-            #expect(translations["Settings…"] == (language == "da" ? "Indstillinger…" : "Settings…"))
+            #expect(translations["Settings"] == (language == "da" ? "Indstillinger" : "Settings"))
         }
     }
 }

@@ -3,7 +3,6 @@
 "About Narly" = "About Narly";
 "Add" = "Add";
 "Add app" = "Add app";
-"Add app…" = "Add app…";
 "Allow Narly in System Settings to open it automatically at login." = "Allow Narly in System Settings to open it automatically at login.";
 "Already used by %@. Choose another key." = "Already used by %@. Choose another key.";
 "Browsers and apps" = "Browsers and apps";
@@ -17,9 +16,7 @@
 "Compact" = "Compact";
 "Continue" = "Continue";
 "Copied" = "Copied";
-"Copy app info" = "Copy app info";
 "Copy link" = "Copy link";
-"Copy the Narly version, build number and macOS version for feedback." = "Copy the Narly version, build number and macOS version for feedback.";
 "Couldn’t add the app" = "Couldn’t add the app";
 "Couldn’t change whether Narly opens at login. Check Narly’s permissions in System Settings." = "Couldn’t change whether Narly opens at login. Check Narly’s permissions in System Settings.";
 "Couldn’t check whether Narly opens at login." = "Couldn’t check whether Narly opens at login.";
@@ -64,12 +61,12 @@
 "Not installed" = "Not installed";
 "Open Narly from Applications or Spotlight to find settings and help." = "Open Narly from Applications or Spotlight to find settings and help.";
 "Open Narly from the Applications folder to set it as your default browser." = "Open Narly from the Applications folder to set it as your default browser.";
-"Open System Settings…" = "Open System Settings…";
+"Open System Settings" = "Open System Settings";
 "Open at login" = "Open at login";
 "Open in %@" = "Open in %@";
 "Open or copy links in the queue to make room, then try the skipped links again from the app they came from. Open links with addresses that are too long or unsupported types in another app." = "Open or copy links in the queue to make room, then try the skipped links again from the app they came from. Open links with addresses that are too long or unsupported types in another app.";
 "Open with" = "Open with";
-"Opening link…" = "Opening link…";
+"Opening link" = "Opening link";
 "Option-%@ opens the link in this app." = "Option-%@ opens the link in this app.";
 "Preselected browser" = "Preselected browser";
 "Press %ld to open the link." = "Press %ld to open the link.";
@@ -86,7 +83,7 @@
 "Reopen dismissed links" = "Reopen dismissed links";
 "Reset size" = "Reset size";
 "Resize link picker" = "Resize link picker";
-"Resize…" = "Resize…";
+"Resize" = "Resize";
 "Save" = "Save";
 "Scan for apps" = "Scan for apps";
 "Scan for installed browsers and apps" = "Scan for installed browsers and apps";
@@ -100,7 +97,7 @@
 "Shortcut" = "Shortcut";
 "Set shortcut for %@" = "Set shortcut for %@";
 "Settings" = "Settings";
-"Settings…" = "Settings…";
+"Settings" = "Settings";
 "Show" = "Show";
 "Show %@" = "Show %@";
 "Show Narly in the menu bar" = "Show Narly in the menu bar";
@@ -109,12 +106,12 @@
 "Standard shows up to 10 apps. Compact shows up to 5. Choose Custom to set the size yourself. Scroll to see more apps." = "Standard shows up to 10 apps. Compact shows up to 5. Choose Custom to set the size yourself. Scroll to see more apps.";
 "Startup" = "Startup";
 "This app could send links back to Narly. Choose a browser or another app." = "This app could send links back to Narly. Choose a browser or another app.";
-"Send feedback and the copied app info to" = "Send feedback and the copied app info to";
+"Send feedback to" = "Send feedback to";
 "To switch back, choose another default browser in System Settings." = "To switch back, choose another default browser in System Settings.";
 "Type an app name to find an app. Press Return to open the link in the selected app. Use ↑ and ↓ to change the selection, or 1–9 to open a link in an app when you aren’t searching. ⌘C copies the link. Escape clears your search. If the search is empty, it closes the picker." = "Type an app name to find an app. Press Return to open the link in the selected app. Use ↑ and ↓ to change the selection, or 1–9 to open a link in an app when you aren’t searching. ⌘C copies the link. Escape clears your search. If the search is empty, it closes the picker.";
 "Unsupported link types: %ld." = "Unsupported link types: %ld.";
 "Use Narly for your links" = "Use Narly for your links";
-"Waiting for macOS…" = "Waiting for macOS…";
+"Waiting for macOS" = "Waiting for macOS";
 "Welcome to Narly" = "Welcome to Narly";
 "Window size" = "Window size";
 "Your links. The right place." = "Your links. The right place.";
@@ -223,3 +220,28 @@
 "Expanded" = "Expanded";
 "Collapsed" = "Collapsed";
 "Options for %@" = "Options for %@";
+
+// Manual update checks
+"Check for updates" = "Check for updates";
+"Checking for updates" = "Checking for updates";
+"Couldn’t check for updates. Try again." = "Couldn’t check for updates. Try again.";
+"Narly %@ is available." = "Narly %@ is available.";
+"No public release is available yet." = "No public release is available yet.";
+"View update" = "View update";
+"When you check for updates, Narly contacts GitHub to read the latest public release. GitHub receives your IP address. Your links and app preferences are not sent." = "When you check for updates, Narly contacts GitHub to read the latest public release. GitHub receives your IP address. Your links and app preferences are not sent.";
+"You have the latest version." = "You have the latest version.";
+
+// Browser-only routing
+"Open in" = "Open in";
+"Browser links" = "Browser links";
+"Selected browser unavailable" = "Selected browser unavailable";
+"Skip the picker when no installed app supports the link. Links with a matching app keep their app settings. Hold Option when opening a link to show the picker." = "Skip the picker when no installed app supports the link. Links with a matching app keep their app settings. Hold Option when opening a link to show the picker.";
+
+// Next-link picker override
+"Show picker for next link" = "Show picker for next link";
+"Global shortcut" = "Global shortcut";
+"Show the picker" = "Show the picker";
+"Shortcut to show picker for next link" = "Shortcut to show picker for next link";
+"Include Command or Control in your shortcut. Press Escape to cancel." = "Include Command or Control in your shortcut. Press Escape to cancel.";
+"This shortcut is unavailable. Choose another combination." = "This shortcut is unavailable. Choose another combination.";
+"Use the menu bar or your shortcut before clicking a link. The next link shows the picker once. Click the menu item again to cancel. Option still works when held while opening a link." = "Use the menu bar or your shortcut before clicking a link. The next link shows the picker once. Click the menu item again to cancel. Option still works when held while opening a link.";

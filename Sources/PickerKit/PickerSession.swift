@@ -21,6 +21,8 @@ public final class PickerSession {
     }
     public var appLinkBehaviors: [String: String] = [:]
     public var routingDestinations: [Destination] = []
+    public var browserOnlyDestinationID: String?
+    private var browserOnlyRoutes: [UUID: String] = [:]
     private var automaticRoutes: [UUID: AppLinkBehavior] = [:]
 
     public var appShortcuts: [String: String]
@@ -124,11 +126,34 @@ public final class PickerSession {
         presentIfPossible()
     }
 
+    public private(set) var showsPickerForNextLink = false
+
+    public func armNextLinkPicker() {
+        showsPickerForNextLink = true
+        trace?("next-link-picker-armed", nil)
+    }
+    public func cancelNextLinkPicker() {
+        showsPickerForNextLink = false
+        trace?("next-link-picker-cancelled", nil)
+    }
+
     public func receive(_ urls: [URL], optionHeld: Bool = false) {
         let previousIDs = Set(queue.pending.map(\.id))
         let wasEmpty = queue.pending.isEmpty
         let result = queue.enqueue(urls)
         for link in queue.pending where !previousIDs.contains(link.id) {
+            if showsPickerForNextLink {
+                showsPickerForNextLink = false
+                continue
+            }
+            let routingCatalog = routingDestinations.isEmpty ? catalog : routingDestinations
+            let hasMatchingApp = routingCatalog.contains {
+                $0.applicationURL != nil && $0.appLink?.accepts(link.url) == true
+            }
+            if !optionHeld, !hasMatchingApp, let id = browserOnlyDestinationID {
+                browserOnlyRoutes[link.id] = id
+                continue
+            }
             guard let app = AppLink.allCases.first(where: { $0.accepts(link.url) }) else { continue }
             let behavior = AppLinkBehavior(rawValue: appLinkBehaviors[app.rawValue] ?? "") ?? .ask
             let route = behavior.route(optionHeld: optionHeld)
@@ -263,6 +288,7 @@ public final class PickerSession {
         cancelResolution()
         guard !isOpening, isPresented else { return }
         trace?("queue-dismissed", current?.id)
+        browserOnlyRoutes.removeAll()
         automaticRoutes.removeAll()
         queue.dismiss()
         typedQuery = ""
@@ -334,8 +360,32 @@ public final class PickerSession {
         presentIfPossible()
     }
 
+    private func openBrowserOnly(_ link: PendingLink, id: String) async {
+        do {
+            guard let browser = catalog.first(where: {
+                $0.id == id && $0.isWebBrowser && $0.applicationURL != nil
+            }) else { throw DestinationOpenError.unavailable }
+            trace?("open-start-\(browser.id)", link.id)
+            try await opener.open(link.url, in: browser)
+            trace?("open-dispatched", link.id)
+            queue.complete(link.id)
+            resetSelection()
+        } catch {
+            errorMessage = L10n.text("Couldn’t open the link automatically. Choose an app or copy the link.")
+            trace?("open-failed", link.id)
+            onOpenFailure?()
+        }
+        isOpening = false
+        presentIfPossible()
+    }
+
     private func presentIfPossible() {
         guard isReady, !isOpening, hasPendingPresentation, !isPresented else { return }
+        if let link = current, let id = browserOnlyRoutes.removeValue(forKey: link.id) {
+            isOpening = true
+            Task { await openBrowserOnly(link, id: id) }
+            return
+        }
         if let link = current, let route = automaticRoutes.removeValue(forKey: link.id) {
             isOpening = true
             Task { await openAutomatically(link, route: route) }

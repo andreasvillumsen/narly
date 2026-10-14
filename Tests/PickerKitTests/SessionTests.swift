@@ -21,6 +21,127 @@ private final class OpenerSpy: DestinationOpening {
 }
 
 @Suite @MainActor struct SessionTests {
+    @Test func nextLinkOverrideIsConsumedOnlyByFirstAcceptedDelivery() async throws {
+        let opener = OpenerSpy()
+        let session = PickerSession(destinations: destinations, opener: opener)
+        session.browserOnlyDestinationID = "test.safari"
+        session.ready()
+        session.armNextLinkPicker()
+        session.receive([try #require(URL(string: "mailto:test@example.com"))])
+        #expect(session.showsPickerForNextLink)
+        session.dismissRejectionNotice()
+        let url = try link("duplicate")
+        session.receive([url, url])
+        #expect(!session.showsPickerForNextLink)
+        #expect(session.isPresented)
+        #expect(opener.calls.isEmpty)
+        await session.choose(index: 0)
+        for _ in 0..<1000 {
+            if !session.isOpening { break }
+            await Task.yield()
+        }
+        #expect(opener.calls.map { $0.1.id } == ["test.firefox", "test.safari"])
+        #expect(opener.calls.map { $0.0 } == [url, url])
+        #expect(session.queue.pending.isEmpty)
+    }
+
+    @Test func nextLinkOverrideAlsoBypassesAppRulesAndCanBeCancelled() throws {
+        let app = Destination(id: "figma", name: "Figma", applicationURL: URL(fileURLWithPath: "/Figma.app"), appLink: .figma)
+        let session = PickerSession(destinations: destinations + [app], opener: OpenerSpy())
+        session.appLinkBehaviors = ["figma": "app"]
+        session.ready()
+        session.armNextLinkPicker()
+        session.armNextLinkPicker()
+        session.receive([try #require(URL(string: "https://www.figma.com/design/abc/Example"))])
+        #expect(session.isPresented)
+        #expect(!session.isOpening)
+        session.armNextLinkPicker()
+        session.cancelNextLinkPicker()
+        #expect(!session.showsPickerForNextLink)
+    }
+
+    @Test func browserOnlyRoutingPreservesDuplicatesAndIncomingDelivery() async throws {
+        let opener = OpenerSpy()
+        let session = PickerSession(destinations: destinations, opener: opener)
+        session.browserOnlyDestinationID = "test.safari"
+        let url = try link("original?keep=1#fragment")
+        let next = try link("incoming")
+        var shows = 0
+        session.onShow = { shows += 1 }
+        opener.duringOpen = {
+            #expect(session.isOpening)
+            #expect(!session.isPresented)
+            if opener.calls.count == 1 { session.receive([next]) }
+            await Task.yield()
+        }
+        session.receive([url, url])
+        #expect(opener.calls.isEmpty)
+        session.ready()
+        for _ in 0..<1000 {
+            if session.queue.pending.isEmpty { break }
+            await Task.yield()
+        }
+        #expect(session.queue.pending.isEmpty)
+        #expect(opener.calls.map { $0.0 } == [url, url, next])
+        #expect(opener.calls.allSatisfy { $0.1.id == "test.safari" })
+        #expect(shows == 0)
+    }
+
+    @Test func matchingAppAndOptionKeepPicker() throws {
+        let app = Destination(id: "com.figma.Desktop", name: "Figma",
+                              applicationURL: URL(fileURLWithPath: "/Figma.app"), appLink: .figma)
+        let session = PickerSession(destinations: destinations + [app], opener: OpenerSpy())
+        session.browserOnlyDestinationID = "test.safari"
+        session.ready()
+        session.receive([try #require(URL(string: "https://www.figma.com/design/abc/Example"))])
+        #expect(session.isPresented)
+        #expect(!session.isOpening)
+        session.dismiss()
+        session.receive([try link()], optionHeld: true)
+        #expect(session.isPresented)
+        #expect(!session.isOpening)
+    }
+
+    @Test func unsupportedOrUninstalledAppsDoNotBlockAutomaticBrowser() async throws {
+        let figmaURL = try #require(URL(string: "https://www.figma.com/design/abc/Example"))
+        for (appURL, url) in [(URL(fileURLWithPath: "/Figma.app"), try link()), (nil, figmaURL)] {
+            let app = Destination(id: "com.figma.Desktop", name: "Figma", applicationURL: appURL, appLink: .figma)
+            let opener = OpenerSpy()
+            let session = PickerSession(destinations: destinations + [app], opener: opener)
+            session.browserOnlyDestinationID = "test.safari"
+            session.ready()
+            session.receive([url])
+            for _ in 0..<1000 {
+                if session.queue.pending.isEmpty { break }
+                await Task.yield()
+            }
+            #expect(session.queue.pending.isEmpty)
+            #expect(opener.calls.first?.0 == url)
+            #expect(opener.calls.first?.1.id == "test.safari")
+        }
+    }
+
+    @Test func failedOrMissingAutomaticBrowserKeepsLinkWithoutFallback() async throws {
+        for id in ["test.safari", "missing"] {
+            let opener = OpenerSpy()
+            opener.fails = true
+            let session = PickerSession(destinations: destinations, opener: opener)
+            session.browserOnlyDestinationID = id
+            session.ready()
+            let url = try link()
+            session.receive([url])
+            for _ in 0..<1000 {
+                if session.isPresented { break }
+                await Task.yield()
+            }
+            #expect(session.isPresented)
+            #expect(session.current?.url == url)
+            #expect(session.errorMessage != nil)
+            #expect(opener.calls.count == (id == "missing" ? 0 : 1))
+            #expect(opener.calls.allSatisfy { $0.1.id == id })
+        }
+    }
+
     @Test func delayedDestinationActivationCannotDismissTheNextQueuedLink() async throws {
         let opener = OpenerSpy()
         let session = PickerSession(destinations: destinations, opener: opener)

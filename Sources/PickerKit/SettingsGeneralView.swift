@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct SettingsGeneralView: View {
@@ -20,7 +21,7 @@ struct SettingsGeneralView: View {
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel(L10n.text("Narly is your default browser"))
                 } else {
-                    Button(defaultBrowser.isChanging ? L10n.text("Waiting for macOS…") : L10n.text("Set as default browser"),
+                    Button(defaultBrowser.isChanging ? L10n.text("Waiting for macOS") : L10n.text("Set as default browser"),
                            action: makeDefault)
                         .disabled(defaultBrowser.isChanging || !defaultBrowser.isInstalled)
                         .accessibilityIdentifier("make-default-browser")
@@ -41,7 +42,7 @@ struct SettingsGeneralView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(loginItem.errorMessage ?? loginItem.description)
                         .font(.callout).foregroundStyle(.secondary)
-                    Button(L10n.text("Open System Settings…"), action: loginItem.openSystemSettings)
+                    Button(L10n.text("Open System Settings"), action: loginItem.openSystemSettings)
                 }
             } else if loginItem.status == .notFound, defaultBrowser.isInstalled {
                 Text(loginItem.description).font(.callout).foregroundStyle(.secondary)
@@ -61,6 +62,49 @@ struct SettingsGeneralView: View {
         .toggleStyle(.switch)
 
         Section {
+            Picker(L10n.text("Open in"), selection: Binding(
+                get: { preferences.browserOnlyDestinationID ?? "" },
+                set: { preferences.setBrowserOnlyDestination($0.isEmpty ? nil : $0) }
+            )) {
+                Text(L10n.text("Ask every time")).tag("")
+                ForEach(preferences.availableBrowsers) { browser in
+                    Label {
+                        Text(browser.name)
+                    } icon: {
+                        if let url = browser.applicationURL {
+                            Image(nsImage: browserMenuIcon(at: url))
+                                .accessibilityHidden(true)
+                        }
+                    }
+                    .tag(browser.id)
+                }
+                if let id = preferences.browserOnlyDestinationID,
+                   !preferences.availableBrowsers.contains(where: { $0.id == id }) {
+                    Text(L10n.text("Selected browser unavailable")).tag(id)
+                }
+            }
+            .accessibilityIdentifier("browser-only-destination")
+        } header: {
+            Text(L10n.text("Browser links"))
+        } footer: {
+            Text(L10n.text("Skip the picker when no installed app supports the link. Links with a matching app keep their app settings. Hold Option when opening a link to show the picker."))
+        }
+        .pickerStyle(.menu)
+
+        Section {
+            LabeledContent(L10n.text("Global shortcut")) {
+                NextLinkShortcutRecorder(preferences: preferences)
+            }
+            if let error = preferences.nextLinkShortcutError {
+                Text(error).font(.callout).foregroundStyle(.secondary)
+            }
+        } header: {
+            Text(L10n.text("Show the picker"))
+        } footer: {
+            Text(L10n.text("Use the menu bar or your shortcut before clicking a link. The next link shows the picker once. Click the menu item again to cancel. Option still works when held while opening a link."))
+        }
+
+        Section {
             Picker(L10n.text("Layout"), selection: Binding(
                 get: { preferences.pickerLayout }, set: { preferences.setPickerLayout($0) }
             )) {
@@ -78,7 +122,7 @@ struct SettingsGeneralView: View {
 
                 if preferences.pickerMode == .custom {
                     LabeledContent(L10n.text("Custom size")) {
-                        Button(L10n.text("Resize…"), action: customizeSize)
+                        Button(L10n.text("Resize"), action: customizeSize)
                             .accessibilityIdentifier("customize-picker-size")
                     }
                 }
@@ -98,6 +142,15 @@ struct SettingsGeneralView: View {
             Text(sizeDescription)
         }
         .pickerStyle(.menu)
+    }
+
+    private func browserMenuIcon(at url: URL) -> NSImage {
+        let icon = NSImage(size: NSSize(width: 16, height: 16), flipped: false) { rect in
+            NSWorkspace.shared.icon(forFile: url.path).draw(in: rect)
+            return true
+        }
+        icon.size = NSSize(width: 16, height: 16)
+        return icon
     }
 
     private var defaultBrowserMessage: String? {

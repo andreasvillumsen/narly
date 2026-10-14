@@ -3,6 +3,23 @@ import Testing
 @testable import PickerKit
 
 @Suite @MainActor struct PreferencesTests {
+    @Test func browserOnlyChoicePersistsIndependently() throws {
+        let suite = "narly-browser-only-\(UUID())"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let preferences = DestinationPreferences(destinations: destinations, defaults: defaults)
+        #expect(preferences.browserOnlyDestinationID == nil)
+        preferences.setPreferred("a")
+        preferences.setBrowserOnlyDestination("b")
+        let restored = DestinationPreferences(destinations: destinations, defaults: defaults)
+        #expect(restored.browserOnlyDestinationID == "b")
+        #expect(restored.preferredID == "a")
+        restored.setBrowserOnlyDestination("c")
+        #expect(restored.browserOnlyDestinationID == "b")
+        restored.setBrowserOnlyDestination(nil)
+        #expect(DestinationPreferences(destinations: destinations, defaults: defaults).browserOnlyDestinationID == nil)
+    }
+
     @Test func menuBarVisibilityPersistsWithoutChangingBrowserChoices() throws {
         let suite = "narly-menu-bar-tests-\(UUID())"
         let defaults = try #require(UserDefaults(suiteName: suite))

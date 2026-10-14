@@ -3,6 +3,32 @@ import Testing
 @testable import PickerKit
 
 @Suite @MainActor struct SettingsWindowTests {
+    @Test func resizingEnforcesMinimumWidthAndHeightAcrossPanes() throws {
+        _ = NSApplication.shared
+        let suite = "Narly.settings-resize-tests.\(UUID())"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let controller = SettingsWindowController(preferences: DestinationPreferences(destinations: [], defaults: defaults))
+        let window = try #require(controller.window)
+        defer { window.close() }
+        let delegate = try #require(window.delegate)
+        let openingWidth = window.frame.width
+        let minimumFrameHeight = window.frameRect(forContentRect: NSRect(x: 0, y: 0, width: 563, height: 460)).height
+        for pane in SettingsPane.allCases {
+            controller.selectPane(pane)
+            window.contentView?.layoutSubtreeIfNeeded()
+            let narrowed = try #require(delegate.windowWillResize?(window, to: NSSize(width: 200, height: 600)))
+            #expect(narrowed.width == openingWidth)
+            #expect(narrowed.height == 600)
+            let shortened = try #require(delegate.windowWillResize?(window, to: NSSize(width: 700, height: 100)))
+            #expect(shortened == NSSize(width: 700, height: minimumFrameHeight))
+            let both = try #require(delegate.windowWillResize?(window, to: NSSize(width: 100, height: 100)))
+            #expect(both == NSSize(width: openingWidth, height: minimumFrameHeight))
+            let enlarged = try #require(delegate.windowWillResize?(window, to: NSSize(width: 800, height: 800)))
+            #expect(enlarged == NSSize(width: 800, height: 800))
+        }
+    }
+
     @Test func nativeToolbarNavigatesAndIntroductionReturnsToGeneral() throws {
         _ = NSApplication.shared
         let suite = "Narly.settings-navigation-tests.\(UUID())"
@@ -22,6 +48,8 @@ import Testing
             let item = try #require(toolbar.items.first { $0.itemIdentifier == pane.toolbarIdentifier })
             let button = try #require(item.view as? SettingsToolbarButton)
             button.performClick(nil)
+            window.contentView?.layoutSubtreeIfNeeded()
+            #expect(window.contentMinSize == NSSize(width: 563, height: 460))
             #expect(controller.selectedPane == pane)
             #expect(button.state == .on)
             controller.selectPane(.general)
@@ -79,6 +107,9 @@ import Testing
         let controller = SettingsWindowController(preferences: DestinationPreferences(destinations: [], defaults: defaults))
         let window = try #require(controller.window)
         defer { window.close() }
+        window.contentView?.layoutSubtreeIfNeeded()
+        #expect(window.contentMinSize == NSSize(width: 563, height: 460))
+        #expect(window.contentLayoutRect.width == 563)
         #expect(window.collectionBehavior.contains(.moveToActiveSpace))
         #expect(window.collectionBehavior.contains(.fullScreenAuxiliary))
         #expect(window.collectionBehavior.contains(.canJoinAllApplications))

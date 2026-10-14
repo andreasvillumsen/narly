@@ -46,7 +46,7 @@ struct SettingsDestinationsView: View {
                 }
             }
             HStack {
-                Button(action: addApplication) { Label(L10n.text("Add app…"), systemImage: "plus") }
+                Button(action: addApplication) { Label(L10n.text("Add app"), systemImage: "plus") }
                     .accessibilityIdentifier("add-application")
                 Spacer()
             }

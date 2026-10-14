@@ -48,7 +48,7 @@ plist = {
     'CFBundleDisplayName': name,
     'CFBundlePackageType': 'APPL', 'CFBundleIconFile': 'Narly',
     'CFBundleIconName': 'Narly',
-    'CFBundleShortVersionString': '0.2.0', 'CFBundleVersion': '26',
+    'CFBundleShortVersionString': '0.3.0', 'CFBundleVersion': '28',
     'LSApplicationCategoryType': 'public.app-category.utilities',
     'LSMinimumSystemVersion': '26.0', 'LSUIElement': True,
     'NSPrincipalClass': 'NSApplication', 'NSHighResolutionCapable': True,

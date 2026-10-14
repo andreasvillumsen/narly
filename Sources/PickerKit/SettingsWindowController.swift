@@ -3,31 +3,37 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 @MainActor
-public final class SettingsWindowController: NSWindowController, NSToolbarDelegate {
+public final class SettingsWindowController: NSWindowController, NSToolbarDelegate, NSWindowDelegate {
+    private static let minimumContentSize = NSSize(width: 563, height: 460)
     private let preferences: DestinationPreferences
     private var sizeEditor: PickerSizeWindowController?
     private let defaultBrowser = DefaultBrowserSettings()
     private let loginItem = LoginItemSettings()
     private let introduction = IntroductionState()
     private let navigation = SettingsNavigation()
+    private let updates = SettingsUpdates()
     var selectedPane: SettingsPane { navigation.selection }
     public init(preferences: DestinationPreferences) {
         self.preferences = preferences
-        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 560, height: 500),
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 563, height: 728),
                               styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
         window.title = L10n.format("%@ Settings", AppInformation.name)
-        window.contentMinSize = NSSize(width: 480, height: 460)
         window.toolbarStyle = .preference
         window.isReleasedWhenClosed = false
         window.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary, .canJoinAllApplications]
         window.center()
         super.init(window: window)
-        window.contentView = NSHostingView(rootView: SettingsView(preferences: preferences, defaultBrowser: defaultBrowser,
-                                                                loginItem: loginItem, introduction: introduction, navigation: navigation,
+        let hostingView = NSHostingView(rootView: SettingsView(preferences: preferences, defaultBrowser: defaultBrowser,
+                                                                loginItem: loginItem, introduction: introduction, navigation: navigation, updates: updates,
                                                                 addApplication: { [weak window] in
             guard let window else { return }
             Self.chooseApplication(in: window, preferences: preferences)
         }, customizeSize: { [weak self] in self?.customizeSize() }))
+        // AppKit owns the resize limits; SwiftUI must not replace them when panes change.
+        hostingView.sizingOptions = []
+        window.contentView = hostingView
+        window.contentMinSize = Self.minimumContentSize
+        window.delegate = self
         let toolbar = NSToolbar(identifier: "narly.settings")
         toolbar.delegate = self
         toolbar.displayMode = .iconOnly
@@ -44,6 +50,14 @@ public final class SettingsWindowController: NSWindowController, NSToolbarDelega
     }
 
     required init?(coder: NSCoder) { nil }
+
+    public func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
+        let minimumFrameSize = sender.frameRect(forContentRect: NSRect(
+            origin: .zero, size: Self.minimumContentSize
+        )).size
+        return NSSize(width: max(frameSize.width, minimumFrameSize.width),
+                      height: max(frameSize.height, minimumFrameSize.height))
+    }
 
     public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         [.flexibleSpace, .space] + SettingsPane.allCases.map(\.toolbarIdentifier)

@@ -2,7 +2,8 @@ import AppKit
 import SwiftUI
 
 struct SettingsAboutSection: View {
-    @State private var copied = false
+    let updates: SettingsUpdates
+    let preferences: DestinationPreferences
 
     var body: some View {
         Section {
@@ -16,18 +17,7 @@ struct SettingsAboutSection: View {
         }
 
         Section {
-            HStack {
-                Text(AppInformation.versionDescription)
-                    .foregroundStyle(.secondary)
-                    .textSelection(.enabled)
-                Spacer()
-                Button(copied ? L10n.text("Copied") : L10n.text("Copy app info")) {
-                    NSPasteboard.general.clearContents()
-                    copied = NSPasteboard.general.setString(AppInformation.feedbackDetails, forType: .string)
-                }
-                .help(L10n.text("Copy the Narly version, build number and macOS version for feedback."))
-                .accessibilityIdentifier("copy-app-info")
-            }
+            SettingsUpdateRow(updates: updates, preferences: preferences)
 
             DisclosureGroup(L10n.text("Help")) {
                 VStack(alignment: .leading, spacing: 8) {
@@ -44,6 +34,7 @@ struct SettingsAboutSection: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(L10n.text("Narly does not collect usage analytics or save link history to disk. Settings and technical logs stay on your Mac. Logs contain no links, domains or window titles and are not uploaded. Pending and dismissed links stay in memory temporarily."))
                     Text(L10n.text("Links are passed to the app you choose. Narly makes no network requests to resolve them. The selected app and websites you open have their own privacy practices."))
+                    Text(L10n.text("When you check for updates, Narly contacts GitHub to read the latest public release. GitHub receives your IP address. Your links and app preferences are not sent."))
                 }
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -54,7 +45,7 @@ struct SettingsAboutSection: View {
             Text(L10n.text("About Narly"))
         } footer: {
             HStack(alignment: .firstTextBaseline, spacing: 3) {
-                Text(L10n.text("Send feedback and the copied app info to"))
+                Text(L10n.text("Send feedback to"))
                 HStack(alignment: .firstTextBaseline, spacing: 0) {
                     Link(destination: URL(string: "mailto:hello@narlymac.app")!) {
                         Text("hello@narlymac.app")
